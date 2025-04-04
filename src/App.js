@@ -1,7 +1,11 @@
 import "./App.css";
-import React from "react";
+import React, { useState } from "react";
 import { IoMdMoon } from "react-icons/io";
-import { useState } from "react";
+import { MdOutlineMenu } from "react-icons/md";
+import { IoAccessibility } from "react-icons/io5";
+import { GrPowerReset } from "react-icons/gr";
+import { PiWarningCircle } from "react-icons/pi";
+
 import Profile from "./assests/pro.png";
 import pic from "./assests/reg.png";
 import emon from "./assests/emo.png";
@@ -11,11 +15,8 @@ import Build from "./assests/build.png";
 import UlHudluh from "./assests/ulhudluh.png";
 import duplix from "./assests/duplix.png";
 import myregno from "./assests/myregno.png";
-import family from "./assests/family.png"
-import { MdOutlineMenu } from "react-icons/md";
-import { IoAccessibility } from "react-icons/io5";
-import { GrPowerReset } from "react-icons/gr";
-import { PiWarningCircle } from "react-icons/pi";
+import family from "./assests/family.png";
+import SkillIcon from "./assests/skill.png"; // Шинээр нэмэгдсэн импорт
 
 function App() {
   const [selected, setSelected] = useState(null);
@@ -24,37 +25,22 @@ function App() {
   const handleModal = () => {
     setModal(!modal);
   };
-  console.log(modal);
 
   const handleClick = (option) => {
     setSelected(option);
   };
 
   const myArray = [
-    {
-      text: "Ургийн овог",
-      value: "Цахар",
-    },
-    {
-      text: "Нэр",
-      value: "Даваацэрэн",
-    },
-    {
-      text: "Хүйс",
-      value: "Эрэгтэй",
-    },
-    {
-      text: "Регистрийн дугаар",
-      value: "ФД03241106",
-    },
-    {
-      text: "Яс үндэс ",
-      value: "Халх",
-    },
+    { text: "Ургийн овог", value: "Цахар" },
+    { text: "Нэр", value: "Даваацэрэн" },
+    { text: "Хүйс", value: "Эрэгтэй" },
+    { text: "Регистрийн дугаар", value: "ФД03241106" },
+    { text: "Яс үндэс ", value: "Халх" },
   ];
 
   return (
-    <div className="bg-slate-50 h-screen relative ">
+    <div className="bg-slate-50 min-h-screen relative">
+      {/* Floating Buttons */}
       <div className="fixed bottom-[200px] right-3 flex flex-col gap-3">
         <div className="p-3 bg-[#2b8fec] rounded-full">
           <MdOutlineMenu size={30} color="white" />
@@ -63,65 +49,50 @@ function App() {
           <IoAccessibility size={30} color="white" />
         </div>
       </div>
+
+      {/* Header */}
       <div className="flex justify-between p-2 px-4 bg-[#0068CC]">
         <div className="flex gap-4 items-center text-white">
-          <div
-            className={`cursor-pointer ${
-              selected === "Иргэн" ? "font-bold" : "text-slate-200"
-            }`}
-            onClick={() => handleClick("Иргэн")}
-          >
-            Иргэн
-          </div>
-          <div
-            className={`cursor-pointer ${
-              selected === "Хуулийн этгээд" ? "font-bold" : "text-slate-200"
-            }`}
-            onClick={() => handleClick("Хуулийн этгээд")}
-          >
-            Хуулийн этгээд
-          </div>
-          <div
-            className={`cursor-pointer ${
-              selected === "Foreigner" ? "font-bold" : "text-slate-200"
-            }`}
-            onClick={() => handleClick("Foreigner")}
-          >
-            Foreigner
-          </div>.
+          {["Иргэн", "Хуулийн этгээд", "Foreigner"].map((item) => (
+            <div
+              key={item}
+              className={`cursor-pointer ${
+                selected === item ? "font-bold" : "text-slate-200"
+              }`}
+              onClick={() => handleClick(item)}
+            >
+              {item}
+            </div>
+          ))}
         </div>
         <div className="bg-[#A8C9E9] px-2 py-1 rounded-md">
           <IoMdMoon size={20} color="black" />
         </div>
       </div>
-      <div className="py-4 flex justify-between items-center px-2">
-  <img src={emon} alt="pro" style={{ width: '35vw' }} /> 
-  <MdOutlineMenu size={35} />
-</div>
 
-      <div className="flex flex-col bg-cyan-50 ">
-        <div className="left-0">
-         
-        </div>
-        <div className="w-[150px] h-[150px]  overflow-hidden  flex justify-center mt-8 ml-[auto] mr-[auto]">
-          <img src={pic} alt="pro" className="w-[150px]" />
-        </div>
+      {/* Banner */}
+      <div className="py-4 flex justify-between items-center px-2">
+        <img src={emon} alt="pro" style={{ width: "35vw" }} />
+        <MdOutlineMenu size={35} />
       </div>
+
+      {/* Profile Image */}
+      <div className="w-[150px] h-[150px] mx-auto mt-8 flex justify-center overflow-hidden">
+        <img src={pic} alt="pro" className="w-[150px]" />
+      </div>
+
+      {/* Үндсэн мэдээлэл */}
       <div className="p-4 -mt-20">
-        <div className="p-4 bg-white pt-16">
+        <div className="p-4 bg-white pt-16 rounded-xl">
           <h1 className="text-[20px] mb-4 font-medium">Үндсэн мэдээлэл</h1>
-          <div>
-            {myArray.map((item, index) => {
-              return (
-                <div key={index} className="flex flex-col text-[18px]">
-                  <div className="text-[#012468]">{item.text}:</div>
-                  <div className=" font-medium text-[#012468] py-2">
-                    {item.value}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {myArray.map((item, index) => (
+            <div key={index} className="flex flex-col text-[18px]">
+              <div className="text-[#012468]">{item.text}:</div>
+              <div className="font-medium text-[#012468] py-2">
+                {item.value}
+              </div>
+            </div>
+          ))}
           <div className="flex flex-col gap-4 mt-4 text-[18px]">
             <p className="text-[23px]">Иргэний үнэмлэхийн хаяг</p>
             <p className="text-[#012468] font-medium">
@@ -131,7 +102,9 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="" onClick={handleModal}>
+
+      {/* Миний үнэмлэх хэсэг */}
+      <div onClick={handleModal}>
         <div className="px-8 flex justify-between">
           <div className="font-bold text-[25px]">Миний үнэмлэх</div>
           <div className="text-[#0068CC] flex items-center gap-2 text-[18px]">
@@ -141,46 +114,47 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="px-4 pt-4 ">
+        <div className="px-4 pt-4">
           <img src={myregno} alt="myregno" />
         </div>
       </div>
 
-    <div className="p-4 bg-slate-100">
-  <div className="bg-white p-4 rounded-2xl">
-    <div className="flex gap-2">
-      <div className="flex gap-2 h-[50px] w-[50px] items-center">
-        <img src={SkillIcon} alt="skills" />
+      {/* Миний чадварууд */}
+      <div className="p-4 bg-slate-100">
+        <div className="bg-white p-4 rounded-2xl">
+          <div className="flex gap-2">
+            <div className="flex h-[50px] w-[50px] items-center">
+              <img src={SkillIcon} alt="skills" />
+            </div>
+            <div>
+              <h1 className="text-[20px] mt-3">Миний мэдлэг, чадвар</h1>
+            </div>
+          </div>
+          <div className="mt-4 space-y-2 text-[16px]">
+            <div>
+              ✅ <span className="font-semibold text-[#2b8fec]">Backend:</span> Node.js, Express.js, MongoDB
+            </div>
+            <div>
+              ✅ <span className="font-semibold text-[#2b8fec]">Frontend:</span> HTML, CSS, TailwindCSS, React
+            </div>
+            <div>
+              ✅ <span className="font-semibold text-[#2b8fec]">UI Framework:</span> Shadcn/UI, DaisyUI
+            </div>
+            <div>
+              ✅ <span className="font-semibold text-[#2b8fec]">Сургалт, туршлага:</span> Их Засаг Их Сургуулийн 3-р курс, лабораторийн ажилд jQuery ашигласан
+            </div>
+            <div>
+              ✅ <span className="font-semibold text-[#2b8fec]">Нэмэлт:</span> REST API зохиох, хэрэглэгчийн мэдээлэл хадгалах, authentication
+            </div>
+            <div>
+              📧 <span className="font-semibold text-[#2b8fec]">Холбогдох:</span> ddavkahlka@gmail.com
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-        <h1 className="text-[20px] mt-3">Миний мэдлэг, чадвар</h1>
-      </div>
-    </div>
-    <div className="mt-4 space-y-2 text-[16px]">
-      <div>
-        ✅ <span className="font-semibold text-[#2b8fec]">Backend:</span> Node.js, Express.js, MongoDB
-      </div>
-      <div>
-        ✅ <span className="font-semibold text-[#2b8fec]">Frontend:</span> HTML, CSS, TailwindCSS, React
-      </div>
-      <div>
-        ✅ <span className="font-semibold text-[#2b8fec]">UI Framework:</span> Shadcn/UI, DaisyUI
-      </div>
-      <div>
-        ✅ <span className="font-semibold text-[#2b8fec]">Сургалт, туршлага:</span> Их Засаг Их Сургуулийн 3-р курс, лабораторийн ажилд jQuery ашигласан
-      </div>
-      <div>
-        ✅ <span className="font-semibold text-[#2b8fec]">Нэмэлт:</span> REST API зохиох, хэрэглэгчийн мэдээлэл хадгалах, authentication
-      </div>
-      <div>
-        📧 <span className="font-semibold text-[#2b8fec]">Холбогдох:</span> ddavkahlka@gmail.com
-      </div>
-    </div>
-  </div>
-</div>
 
-         
-       {modal ? (
+      {/* Modal */}
+      {modal && (
         <div className="fixed top-0 w-full h-full flex items-center justify-center z-20">
           <div
             onClick={handleModal}
@@ -203,7 +177,7 @@ function App() {
             </div>
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }
