@@ -16,7 +16,7 @@ import UlHudluh from "./assests/ulhudluh.png";
 import duplix from "./assests/duplix.png";
 import myregno from "./assests/myregno.png";
 import family from "./assests/family.png";
-import SkillIcon from "./assests/skill.png"; // Шинээр нэмэгдсэн импорт
+// Шинээр нэмэгдсэн импорт
 
 function App() {
   const [selected, setSelected] = useState(null);
